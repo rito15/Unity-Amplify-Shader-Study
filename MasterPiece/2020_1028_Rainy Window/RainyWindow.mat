@@ -20,11 +20,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 2800000, guid: ad5acd8c2e26f224dbe06ed9bd51ece5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Distortion: 5
-    - _Size: 2
+    - _Blur: 0.15
+    - _BlurResolution: 32
+    - _Brightness: 0.9
+    - _Distortion: -3.38
+    - _DropSpeed: 1
+    - _LayerCount: 4.1
+    - _Size: 5
+    - _SizeX: 4
+    - _SizeY: 2
     - _T: 0
+    - _TimeMultiplier: 1
     m_Colors: []
