@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rito_Water
+  m_Shader: {fileID: 4800000, guid: 1c38d0fa20e9ae94997df178fa2d1981, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: c0db564ac9258e54ca861d9c3fd5386f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cube:
+        m_Texture: {fileID: 8900000, guid: 22f0efbf93ea81b49bce3ac5f1488041, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Alpha: 1
+    - _AlphaAdd: 0.566
+    - _CubeBrightness: 0
+    - _CubeIntensity: 1
+    - _FlowDirX: 1
+    - _FlowDirY: -1
+    - _FlowSpeed: 2
+    - _FresnelIntensity: 1
+    - _FresnelPower: 3
+    - _Indl: 1.09
+    - _Penetration: 0.556
+    - _PenetrationThreshold: 1
+    - _SpIntensity: 3
+    - _SpPower: 124
+    - _Strength: 2
+    - _Tiling: 10
+    - _WaveCount: 16
+    - _WaveDirX: -1
+    - _WaveDirY: 1
+    - _WaveHeight: 0.1
+    - _WaveSpeed: 2
+    m_Colors:
+    - _SpColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0, g: 0, b: 0, a: 1}
