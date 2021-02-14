@@ -29,26 +29,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Alpha: 1
-    - _AlphaAdd: 0.566
     - _CubeBrightness: 0
     - _CubeIntensity: 1
-    - _FlowDirX: 1
-    - _FlowDirY: -1
-    - _FlowSpeed: 2
+    - _FlowDirX: -1
+    - _FlowDirY: 1
+    - _FlowSpeed: 1
     - _FresnelIntensity: 1
     - _FresnelPower: 3
-    - _Indl: 1.09
-    - _Penetration: 0.556
-    - _PenetrationThreshold: 1
-    - _SpIntensity: 3
-    - _SpPower: 124
-    - _Strength: 2
-    - _Tiling: 10
-    - _WaveCount: 16
+    - _Penetration: 0.2
+    - _PenetrationThreshold: 5
+    - _SpIntensity: 2
+    - _SpPower: 300
+    - _Strength: 1
+    - _Tiling: 3
+    - _WaveCount: 8
     - _WaveDirX: -1
     - _WaveDirY: 1
     - _WaveHeight: 0.1
     - _WaveSpeed: 2
     m_Colors:
     - _SpColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Tint: {r: 0, g: 0, b: 0, a: 1}
+    - _Tint: {r: 0, g: 0, b: 0.01, a: 1}
