@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Custom_ShaderOptionsExample
+  m_Shader: {fileID: 4800000, guid: edd6c4498df59b641bc8b5ad35ea471d, type: 3}
+  m_ShaderKeywords: _COLOROVERWRITE_NONE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _Brighter: 0
+    - _ColorOverwrite: 0
+    - _CullMode: 2
+    - _DstFactor: 10
+    - _IntRange: 50
+    - _MyToggle: 0
+    - _Pow: 0.01
+    - _SrcFactor: 3
+    - _ZTest: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 0.7611995, b: 0.06132078, a: 0.59607846}

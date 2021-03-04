@@ -39,7 +39,6 @@
                 float3 tspace0 : TEXCOORD3; // tangent.x, bitangent.x, normal.x
                 float3 tspace1 : TEXCOORD4; // tangent.y, bitangent.y, normal.y
                 float3 tspace2 : TEXCOORD5; // tangent.z, bitangent.z, normal.z
-
             };
 
             sampler2D _MainTex;
@@ -49,7 +48,6 @@
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
                 
                 float3 wNormal = UnityObjectToWorldNormal(v.normal);
                 float3 wTangent = UnityObjectToWorldDir(v.tangent.xyz);
@@ -62,7 +60,8 @@
                 o.tspace0 = float3(wTangent.x, wBitangent.x, wNormal.x);
                 o.tspace1 = float3(wTangent.y, wBitangent.y, wNormal.y);
                 o.tspace2 = float3(wTangent.z, wBitangent.z, wNormal.z);
-
+                
+                o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.wPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.wNormal = wNormal;
