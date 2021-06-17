@@ -5,7 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaintBrush : MonoBehaviour
+/// <summary> 마우스 드래그로 텍스쳐에 그림그리기 </summary>
+public class TexturePaintBrush : MonoBehaviour
 {
     public int resolution = 512;
     [Range(0.01f, 1f)] public float brushSize = 0.1f;
