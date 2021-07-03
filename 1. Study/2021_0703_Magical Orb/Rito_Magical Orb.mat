@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rito_Magical Orb_Default
+  m_Name: Rito_Magical Orb
   m_Shader: {fileID: 4800000, guid: a8f3d72f24210a1498e858ec1b2aeb08, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0

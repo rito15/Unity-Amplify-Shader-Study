@@ -49,7 +49,7 @@ namespace Rito
                 EditorGUILayout.LabelField($"Min : {m.minDot:F2}");
                 EditorGUILayout.LabelField($"Max : {m.maxDot:F2}");
 
-                if (GUILayout.Button("Calculate and Apply to Material (Approximate)"))
+                if (GUILayout.Button("Calculate and Apply to Material (Fast)"))
                 {
                     CalculateMinMaxDots();
                     ApplyMaterialProperties();
