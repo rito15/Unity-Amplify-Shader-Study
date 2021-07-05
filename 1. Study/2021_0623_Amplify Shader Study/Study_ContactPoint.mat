@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Study_CheckerBoard
-  m_Shader: {fileID: 4800000, guid: 30c04feef219b3d45924f9681c148b46, type: 3}
+  m_Name: Study_ContactPoint
+  m_Shader: {fileID: 4800000, guid: 1080bbbe9435aa04f9305e3307c5bbe2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -18,11 +18,8 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _texcoord:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Floats:
+    - _DepthOffset: -0.21
     - __dirty: 0
     m_Colors: []
