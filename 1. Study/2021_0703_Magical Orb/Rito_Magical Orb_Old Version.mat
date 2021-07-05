@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rito_Magical Orb
-  m_Shader: {fileID: 4800000, guid: a8f3d72f24210a1498e858ec1b2aeb08, type: 3}
+  m_Name: Rito_Magical Orb_Old Version
+  m_Shader: {fileID: 4800000, guid: fb28b35798c855245961e1b76e502f0e, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -31,9 +31,10 @@ Material:
     - _DisplacementRange: 0.5
     - _DisplacementScale: 2
     - _DisplacementSpeed: 0.5
-    - _DistortionNormalStrength: 1
-    - _DistortionScale: 4
-    - _DistortionSpeed: 0.2
+    - _DistortionNormalStrength: 0.036
+    - _DistortionScale: 3.47
+    - _DistortionSpeed: 0.522
+    - _DistortionStrength: 0.047
     - _DistortionTwirlStrength: 4
     - _FresnelIntensity: 1
     - _FresnelPower: 5
@@ -41,5 +42,5 @@ Material:
     - __dirty: 0
     m_Colors:
     - _FresnelColor: {r: 0.5960785, g: 2, b: 1.819608, a: 0}
-    - _PatternColor: {r: 0.3632075, g: 1, b: 0.8648483, a: 0}
+    - _PatternColor: {r: 0, g: 0, b: 0, a: 0}
     - _TilingXY: {r: 1, g: 1, b: 0, a: 0}
