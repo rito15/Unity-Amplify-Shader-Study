@@ -34,8 +34,8 @@ Material:
     m_Floats:
     - _Dissolve: 0
     - _EndOffset: 0.5
-    - _MaxOffset: 0.54
-    - _MinOffset: -0.49853122
+    - _MaxOffset: 0.52
+    - _MinOffset: -0.5
     - _NoiseScale: 5.9
     - _Smoothness: 0.182
     - _StartOffset: -0.5

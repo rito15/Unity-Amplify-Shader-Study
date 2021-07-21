@@ -35,12 +35,12 @@ Material:
     - _Dissolve: 0
     - _EndOffset: 1
     - _MaxOffset: 0.50437737
-    - _MinOffset: -0.51
+    - _MinOffset: -0.5
     - _NoiseScale: 10
     - _Smoothness: 0.182
     - _StartOffset: 0
     - _T: 0
-    - _ThicknessA: 0.194
+    - _ThicknessA: 0.095
     - _ThicknessB: 0.05
     - __dirty: 0
     m_Colors:

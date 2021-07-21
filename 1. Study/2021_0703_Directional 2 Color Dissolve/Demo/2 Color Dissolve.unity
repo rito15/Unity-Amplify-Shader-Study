@@ -152,6 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a0a36cdab8fb64396f9db5d7b826a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mf: {fileID: 2947421}
+  mr: {fileID: 2947420}
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  mat: {fileID: 2100000, guid: a337d62886cb39f4798575c0d52d1719, type: 2}
+  direction: {x: 1, y: -1, z: -1}
+  minDot: -0.8660254
+  maxDot: 0.8660254
 --- !u!23 &2947420
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -336,6 +343,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a0a36cdab8fb64396f9db5d7b826a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mf: {fileID: 320070269}
+  mr: {fileID: 320070268}
+  mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  mat: {fileID: 2100000, guid: 4cf0f424649275e40bff02f113804679, type: 2}
+  direction: {x: -3, y: -1, z: -1}
+  minDot: -0.75377834
+  maxDot: 0.75377834
 --- !u!23 &320070268
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -503,6 +517,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a0a36cdab8fb64396f9db5d7b826a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mf: {fileID: 963215782}
+  mr: {fileID: 963215781}
+  mesh: {fileID: 4300000, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
+  mat: {fileID: 2100000, guid: 45178aefe069aeb408830d9aea68faed, type: 2}
+  direction: {x: -1, y: 1, z: 1}
+  minDot: -0.1551448
+  maxDot: 1.1013947
 --- !u!1 &1159388690
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,6 +630,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a0a36cdab8fb64396f9db5d7b826a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mf: {fileID: 1159388693}
+  mr: {fileID: 1159388692}
+  mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  mat: {fileID: 2100000, guid: 93551f55b5d26ad4e9433a6979d3bab9, type: 2}
+  direction: {x: -1, y: 1, z: 1}
+  minDot: -0.49853122
+  maxDot: 0.4997378
 --- !u!1 &1280971975
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,6 +906,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a0a36cdab8fb64396f9db5d7b826a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mf: {fileID: 1704262852}
+  mr: {fileID: 1704262851}
+  mesh: {fileID: 4300000, guid: 320b1c2af77554f99a1658df4a6d3d5c, type: 3}
+  mat: {fileID: 2100000, guid: 7eab3dca3be6650498fdf89b2bf6add7, type: 2}
+  direction: {x: 1, y: 0, z: -1}
+  minDot: -0.44519544
+  maxDot: 0.50437737
 --- !u!135 &1704262850
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -983,6 +1018,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a0a36cdab8fb64396f9db5d7b826a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mf: {fileID: 1747372735}
+  mr: {fileID: 1747372734}
+  mesh: {fileID: 6894428203817054813, guid: d83d39245fa277644bfce99b90e75a3b, type: 3}
+  mat: {fileID: 2100000, guid: 639d0a2d9710c1d4b887ba7ac62c593d, type: 2}
+  direction: {x: 0, y: 1, z: 0}
+  minDot: 0.023006916
+  maxDot: 2.8754582
 --- !u!23 &1747372734
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1076,6 +1118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a0a36cdab8fb64396f9db5d7b826a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mf: {fileID: 1823932179}
+  mr: {fileID: 1823932178}
+  mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  mat: {fileID: 2100000, guid: 3e7ebace7c080e444a018de410da1465, type: 2}
+  direction: {x: 3, y: 1, z: 1}
+  minDot: -0.4956004
+  maxDot: 0.49683672
 --- !u!135 &1823932177
 SphereCollider:
   m_ObjectHideFlags: 0

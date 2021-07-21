@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using System;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 // 날짜 : 2021-07-03 PM 9:31:52
 // 작성자 : Rito
@@ -14,14 +17,21 @@ namespace Rito
     /// </summary>
     public class DissolveShaderHelper : MonoBehaviour
     {
-        private MeshFilter mf;
-        private MeshRenderer mr;
-        private Mesh mesh;
-        private Material mat; // shared material
+        public MeshFilter mf;
+        public MeshRenderer mr;
+        public Mesh mesh;
+        public Material mat; // shared material
 
-        private Vector3 direction = Vector3.up;
-        private float minDot;
-        private float maxDot;
+        public Vector3 direction = Vector3.up;
+        public float minDot;
+        public float maxDot;
+
+#if !UNITY_EDITOR
+        private void Awake()
+        {
+            Destroy(this);
+        }
+#endif
 
 #if UNITY_EDITOR
         [CustomEditor(typeof(DissolveShaderHelper))]
@@ -31,18 +41,14 @@ namespace Rito
 
             private void OnEnable()
             {
-                if (m == null)
-                    m = target as DissolveShaderHelper;
-
-                if (m != null)
-                {
-                    InitReferences();
-                }
+                if (m == null) m = target as DissolveShaderHelper;
+                if (m != null) InitReferences();
             }
 
             public override void OnInspectorGUI()
             {
                 if (m.mesh == null) return;
+                if (m.mat == null) return;
 
                 m.direction = EditorGUILayout.Vector3Field("Dissolve Direction", m.direction);
 
@@ -63,8 +69,8 @@ namespace Rito
 
             private void InitReferences()
             {
-                m.TryGetComponent(out m.mf);
-                m.TryGetComponent(out m.mr);
+                m.mf = m.GetComponent<MeshFilter>();
+                m.mr = m.GetComponent<MeshRenderer>();
                 if (m.mf != null) m.mesh = m.mf.sharedMesh;
                 if (m.mr != null) m.mat  = m.mr.sharedMaterial;
             }
