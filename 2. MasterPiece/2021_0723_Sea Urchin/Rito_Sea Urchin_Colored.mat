@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Study_TextureSheetAnimation 3
-  m_Shader: {fileID: 4800000, guid: 366bd6c36d2b2e1459404af39c801ff2, type: 3}
+  m_Name: Rito_Sea Urchin_Colored
+  m_Shader: {fileID: 4800000, guid: 809cae1fff3e5fc4ca52316a0ebc3a17, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,17 +19,19 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _TextureSheet:
-        m_Texture: {fileID: 2800000, guid: f66ee8625ad43454aabe438579cc8407, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Column: 2
-    - _Index: 0
-    - _Row: 3
+    - _ColorMixSmoothness: 0.4
+    - _ColorMixThreshold: 0
+    - _ColorThreshold: -0.02
+    - _EdgeLength: 6
+    - _Height: 0.15
+    - _Sharpness: 50
+    - _Tiling: 16
     - __dirty: 0
-    m_Colors: []
+    m_Colors:
+    - _BodyColor: {r: 1, g: 0.95510393, b: 0.3820755, a: 0}
+    - _ThornColor: {r: 0.9529412, g: 0, b: 0.042541172, a: 0}
