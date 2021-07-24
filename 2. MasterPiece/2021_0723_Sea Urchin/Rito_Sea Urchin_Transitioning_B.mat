@@ -30,7 +30,7 @@ Material:
     - _Height: 0.1
     - _Sharpness: 50
     - _Tiling: 16
-    - _Transition: 0
+    - _Transition: 0.025
     - _TransitionSmoothness: 1
     - __dirty: 0
     m_Colors:

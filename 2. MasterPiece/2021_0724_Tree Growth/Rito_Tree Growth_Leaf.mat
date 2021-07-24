@@ -7,23 +7,20 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Study_Growth
-  m_Shader: {fileID: 4800000, guid: 8e67f5167c85da34b89c6505caa55f21, type: 3}
+  m_Name: Rito_Tree Growth_Leaf
+  m_Shader: {fileID: 4800000, guid: 645690f0f40b61c42b948db0241c25a4, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 0
-  m_EnableInstancingVariants: 0
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _texcoord:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Floats:
-    - _T: 0
+    - _Grow: 0
     - __dirty: 0
-    m_Colors: []
+    m_Colors:
+    - _Tint: {r: 0, g: 0.3962264, b: 0.01680203, a: 0}
