@@ -24,27 +24,28 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Amplitude: 1
+    - _Amplitude: 0.26
     - _BlinkSpeed: 2
     - _Cutoff: 0.5
     - _FlickerPower: 8
     - _FlickerSpeed: 2
-    - _MaskNoiseScale: 4
-    - _MaskThreshold: 0.538
+    - _MaskNoiseScale: 7
+    - _MaskThreshold: 0.84
     - _NoiseScale: 1
+    - _NormalOffset: 0.01
     - _Power: 8
     - _Repeat: 4
     - _RepeatInterval: 1
-    - _Speed: 1
+    - _Speed: 0.5
     - _Threshold: 0.6
     - _TimeBegin: 0
     - _TimeEnd: 4
     - _TimeInterval: 4
-    - _Width: 0.05
+    - _Width: 0.04
     - __dirty: 0
     m_Colors:
     - _Color: {r: 0, g: 127.999985, b: 67.39605, a: 0}
-    - _FlowDirection: {r: 0, g: 0.4, b: 0, a: 0}
+    - _FlowDirection: {r: 0, g: 4, b: 0, a: 0}
     - _FlowDirection2: {r: 1.5, g: 1.3, b: 0, a: 0}
-    - _MaskOffset: {r: 0.5, g: 0.33, b: 0, a: 0}
+    - _MaskOffset: {r: 0.68, g: 0.86, b: 0, a: 0}
     - _Speed: {r: 0, g: 0.5, b: 0, a: 0}

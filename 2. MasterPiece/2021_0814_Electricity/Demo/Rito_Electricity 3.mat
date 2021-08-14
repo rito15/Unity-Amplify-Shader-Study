@@ -29,9 +29,9 @@ Material:
     - _Cutoff: 0.5
     - _FlickerPower: 8
     - _FlickerSpeed: 4
-    - _MaskNoiseScale: 6
-    - _MaskThreshold: 0.6
-    - _NoiseScale: 4
+    - _MaskNoiseScale: 4
+    - _MaskThreshold: 0.796
+    - _NoiseScale: 2
     - _NormalOffset: 0.01
     - _Power: 8
     - _Repeat: 4
@@ -41,7 +41,7 @@ Material:
     - _TimeBegin: 0
     - _TimeEnd: 4
     - _TimeInterval: 4
-    - _Width: 0.2
+    - _Width: 0.3
     - __dirty: 0
     m_Colors:
     - _Color: {r: 127.999985, g: 1.2793618, b: 0, a: 0}

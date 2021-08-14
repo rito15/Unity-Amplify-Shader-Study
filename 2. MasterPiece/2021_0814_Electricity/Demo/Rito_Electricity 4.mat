@@ -29,8 +29,8 @@ Material:
     - _Cutoff: 0.5
     - _FlickerPower: 0
     - _FlickerSpeed: 8
-    - _MaskNoiseScale: 6
-    - _MaskThreshold: 0.6
+    - _MaskNoiseScale: 4
+    - _MaskThreshold: 0.834
     - _NoiseScale: 4
     - _NormalOffset: 0.01
     - _Power: 8
