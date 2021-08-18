@@ -18,6 +18,26 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
-    m_Floats: []
-    m_Colors: []
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseMap:
+        m_Texture: {fileID: 2800000, guid: 252f65d340993244c8efae9768c0d417, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AreaPower: 2
+    - _AreaRange: 0.15
+    - _CircleNoiseScale: 3
+    - _CircleSpreadSpeed: 0.2
+    - _ColorIntensity: 3.18
+    - _Distortion: -1
+    - _PatternAreaRange: 0.1
+    - _PatternBorderOpacity: 20
+    - _PatternColorOpacity: 15
+    - _PatternRange: 1
+    - _PatternSpeed: 2
+    m_Colors:
+    - _Color: {r: 0.1764706, g: 0.6, b: 1, a: 0}
