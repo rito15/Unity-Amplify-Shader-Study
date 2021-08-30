@@ -13,19 +13,21 @@ using UnityEditor;
 namespace Rito
 {
     /// <summary> 
-    /// 스크린 이미지 이펙트 적용
+    /// 스크린 이미지 이펙트 관리 및 적용 컴포넌트
     /// </summary>
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class ScreenEffectController : MonoBehaviour
     {
-        private readonly List<ScreenEffect> _screenEffectList = new List<ScreenEffect>(8);
-        private readonly List<ScreenEffect> _validEffectList = new List<ScreenEffect>(8);
-        private readonly RenderTexture[] _renderTexArr = new RenderTexture[20];
+        private const int INITIAL_EFFECT_CAPACITY = 8;
+
+        private readonly List<ScreenEffect> _screenEffectList = new List<ScreenEffect>(INITIAL_EFFECT_CAPACITY);
+        private readonly List<ScreenEffect> _validEffectList = new List<ScreenEffect>(INITIAL_EFFECT_CAPACITY);
+        private RenderTexture[] _renderTexArr = new RenderTexture[INITIAL_EFFECT_CAPACITY];
 
 #if UNITY_EDITOR
         private event Action EffectListChanged;
-        private bool autoUpdateInEditMode;
+        [SerializeField] private bool autoUpdateInEditMode;
 #endif
 
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -58,6 +60,12 @@ namespace Rito
                         // 순서 정렬
                         _validEffectList.Sort((a, b) => a.priority - b.priority);
 
+                        // 공간 동적 확보
+                        if (_renderTexArr.Length <= validCount)
+                        {
+                            _renderTexArr = new RenderTexture[validCount * 2]; // 넉넉히 확보
+                        }
+
                         _renderTexArr[0] = source;
                         _renderTexArr[validCount] = destination;
 
@@ -76,6 +84,7 @@ namespace Rito
                 }
                 else
                 {
+                    // 유효한 스크린 이펙트가 없을 경우 : 스크린 그대로 출력
                     Graphics.Blit(source, destination);
                 }
             }
@@ -109,7 +118,7 @@ namespace Rito
 #if UNITY_EDITOR
         // 에디터 모드에서 게임뷰 자동 업데이트
         [InitializeOnLoadMethod]
-        static void Test()
+        private static void AutoUpdateInEditMode()
         {
             EditorApplication.update += () =>
             {
@@ -295,18 +304,22 @@ namespace Rito
             }
         }
 
+        private static GUIStyle labelStyle;
         private static void DrawHierarchyGUI(in Rect fullRect, ScreenEffectController target)
         {
             bool active = target.isActiveAndEnabled;
 
             // 1. Left Icon
-            const float Pos = 32f;
-
             Rect iconRect = new Rect(fullRect);
-            iconRect.x = Pos;
             iconRect.width = 16f;
 
-            GUI.DrawTexture(iconRect, iconTexture);
+#if UNITY_2019_3_OR_NEWER
+            iconRect.x = 32f;
+#else
+            iconRect.x = 0f;
+#endif
+            if (iconTexture != null && active)
+                GUI.DrawTexture(iconRect, iconTexture);
 
             // 2. Right Buttons
             float xEnd = fullRect.xMax + 10f;
@@ -323,12 +336,20 @@ namespace Rito
             labelRect.xMax = leftButtonRect.xMin - 4f;
             labelRect.xMin = labelRect.xMax - 80f;
 
-            Color c = GUI.color;
-            GUI.color = active ? Color.yellow : Color.gray;
+
+
+            // Label : "Screen Effect"
+            if (labelStyle == null)
+                labelStyle = new GUIStyle(EditorStyles.label);
+            labelStyle.normal.textColor = active ? Color.yellow : Color.gray;
+
+            EditorGUI.BeginDisabledGroup(!active);
             {
-                GUI.Label(labelRect, "Screen Effect");
+                GUI.Label(labelRect, "Screen Effect", labelStyle);
             }
-            GUI.color = c;
+            EditorGUI.EndDisabledGroup();
+
+
 
             EditorGUI.BeginDisabledGroup(target.enabled);
             if (GUI.Button(leftButtonRect, "ON"))
@@ -351,13 +372,13 @@ namespace Rito
         ***********************************************************************/
         #region .
 #if UNITY_EDITOR
-        private const string HierarchyMenuItemTitle = "GameObject/Effects/Add Screen Effect Controller";
+        private const string HierarchyMenuItemTitle = "GameObject/Effects/Screen Effect Controller";
 
         [MenuItem(HierarchyMenuItemTitle, false, 500)]
         private static void MenuItem()
         {
             var selected = Selection.activeGameObject;
-            if(selected.GetComponent<ScreenEffectController>() == null)
+            if (selected.GetComponent<ScreenEffectController>() == null)
                 selected.AddComponent<ScreenEffectController>();
         }
 
