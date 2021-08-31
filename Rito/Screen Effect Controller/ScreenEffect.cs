@@ -56,7 +56,7 @@ namespace Rito
     {
         public enum StopAction
         {
-            Destroy, Disable, Repeat
+            KeepLastState, Disable, Destroy, Repeat
         }
 
         public Material effectMaterial;
@@ -81,6 +81,24 @@ namespace Rito
         // 지속시간 : 프레임
         [SerializeField] private float durationFrame = 0;
         private float currentFrame = 0;
+
+        // 재생 속도 : 0 ~ 2x
+        [SerializeField] private float animPlaySpeed = 1f;
+
+        // 타임스케일 영향 받을지 여부
+        [SerializeField] private bool affectedByTimescale = true;
+
+        private float DeltaTime
+        {
+            get
+            {
+                return affectedByTimescale ?
+                    Time.deltaTime : Time.unscaledDeltaTime;
+            }
+        }
+
+        /// <summary> 현재 시간/프레임, 애니메이션 진행사항 유지 </summary>
+        private bool keepCurrentState = false;
 
 #if UNITY_EDITOR
         /// <summary> 플레이 모드 중 Current Time 직접 수정 가능 모드 </summary>
@@ -119,6 +137,7 @@ namespace Rito
 
             currentSeconds = 0f;
             currentFrame = 0;
+            keepCurrentState = false;
         }
         private void OnDisable()
         {
@@ -132,8 +151,9 @@ namespace Rito
         private void Update()
         {
             if (Application.isPlaying == false) return;
+            if (keepCurrentState) return; // 현재 시간, 진행 사항 유지
 
-            UpdateMaterialProperties();
+            UpdateMaterialPropertyAnimations();
 
 #if UNITY_EDITOR
             if (__editMode) return;
@@ -142,7 +162,7 @@ namespace Rito
             UpdateTime();
         }
 
-        private void UpdateMaterialProperties()
+        private void UpdateMaterialPropertyAnimations()
         {
             if (isTimeModeSeconds)
             {
@@ -326,23 +346,10 @@ namespace Rito
         {
             if (durationSeconds <= 0f) return;
 
-            currentSeconds += Time.deltaTime;
+            currentSeconds += DeltaTime * animPlaySpeed;
             if (currentSeconds >= durationSeconds)
             {
-                switch (stopAction)
-                {
-                    case StopAction.Destroy:
-                        Destroy(gameObject);
-                        break;
-                    case StopAction.Disable:
-                        gameObject.SetActive(false);
-                        break;
-                        //case StopAction.Repeat:
-                        //    currentSeconds = 0f;
-                        //    break;
-                }
-
-                currentSeconds = 0f;
+                DoStopActions();
             }
         }
 
@@ -353,27 +360,41 @@ namespace Rito
             // 1. 타겟 FPS를 지정한 경우 : 프레임 계산하여 증가
             if (useTargetFPS)
             {
-                currentFrame += Time.deltaTime * targetFPS;
+                currentFrame += DeltaTime * targetFPS * animPlaySpeed;
             }
             // 2. 그냥 매 프레임 카운팅 하는 경우 : 매 프레임 1씩 증가
             else
             {
-                currentFrame++;
+                currentFrame += animPlaySpeed;
             }
 
             if (currentFrame >= durationFrame)
             {
-                switch (stopAction)
-                {
-                    case StopAction.Destroy:
-                        Destroy(gameObject);
-                        break;
-                    case StopAction.Disable:
-                        gameObject.SetActive(false);
-                        break;
-                }
+                DoStopActions();
+            }
+        }
 
-                currentFrame = 0;
+        /// <summary> 종료 동작 수행 </summary>
+        private void DoStopActions()
+        {
+            switch (stopAction)
+            {
+                case StopAction.KeepLastState:
+                    keepCurrentState = true;
+                    break;
+
+                case StopAction.Disable:
+                    gameObject.SetActive(false);
+                    break;
+
+                case StopAction.Destroy:
+                    Destroy(gameObject);
+                    break;
+
+                case StopAction.Repeat:
+                    currentSeconds = 0f;
+                    currentFrame = 0f;
+                    break;
             }
         }
 
@@ -597,6 +618,10 @@ namespace Rito
             /// <summary> 현재 시간 진행도(0.0 ~ 1.0) </summary>
             private float currentTimeOrFrameRatio;
 
+            /// <summary> 값 복사, 붙여넣기를 위한 값 </summary>
+            private MaterialPropertyAnimKey clipboardValue;
+            private ShaderPropertyType clipboardValueType;
+
             private static readonly Color MinusButtonColor = Color.red * 1.5f;
             private static readonly Color TimeColor = new Color(1.5f, 1.5f, 0.2f, 1f);  // Yellow
             private static readonly Color EnabledColor = new Color(0f, 1.5f, 1.5f, 1f); // Cyan
@@ -684,7 +709,7 @@ namespace Rito
                 EditorGUI.BeginChangeCheck();
                 {
                     EditorGUILayout.Space();
-                    DrawDefaultFields();
+                    DrawOptionFields();
 
                     if (m.effectMaterial == null)
                     {
@@ -730,7 +755,7 @@ namespace Rito
 
             private static readonly string[] StopActionsHangle = new string[]
             {
-                "파괴", "비활성화", "반복(재시작)"
+                "마지막 상태 유지", "비활성화", "파괴", "반복(재시작)"
             };
             private static readonly string[] TimeModesEng = new string[]
             {
@@ -1003,13 +1028,15 @@ namespace Rito
             }
             private void LoadMaterialProperties()
             {
+                // NOTE : 새로 할당된 마테리얼이 null일 경우 여기로 진입 못함. 따라서 null 처리 불필요
+
                 // 기존 애니메이션 정보 백업
                 var backup = m.matPropertyList;
 
                 int propertyCount = shader.GetPropertyCount();
                 m.matPropertyList = new List<MaterialPropertyInfo>(propertyCount);
 
-                // 쉐이더, 마테리얼 프로퍼티 목록 순회하면서 데이터 가져오기
+                // 새로운 쉐이더의 프로퍼티 목록 순회하면서 데이터 가져오기
                 for (int i = 0; i < propertyCount; i++)
                 {
                     ShaderPropertyType propType = shader.GetPropertyType(i);
@@ -1030,7 +1057,8 @@ namespace Rito
                 int validPropCount = m.matPropertyList.Count;
 
                 // 동일 쉐이더일 경우, 백업된 애니메이션에서 동일하게 존재하는 프로퍼티에 애니메이션 복제
-                if (validPropCount > 0 && m.matPropertyList[0].material.shader == shader)
+                // 동일 쉐이더 여부는 이름으로 확인
+                if (backup != null && backup.Count > 0 && backup[0].material.shader.name == shader.name)
                 {
                     for (int i = 0; i < validPropCount; i++)
                     {
@@ -1041,11 +1069,22 @@ namespace Rito
                             x.propType == cur.propType
                         );
 
+                        // 각 마테리얼 프로퍼티의 현재 상태 복제
                         if (found != null)
                         {
-                            cur.animKeyList = found.animKeyList;
+                            cur.animKeyList = found.animKeyList; // 애니메이션 키들 복제
                             cur.enabled = found.enabled;
                             cur.__foldout = found.__foldout;
+                            cur.__showAnimation = found.__showAnimation;
+                            cur.__showGraph = found.__showGraph;
+                            cur.__showIndexOrTime = found.__showIndexOrTime;
+
+                            try
+                            {
+                                for (int j = 0; j < 4; j++)
+                                    cur.__showVectorGraphs[j] = found.__showVectorGraphs[j];
+                            }
+                            catch { }
                         }
                     }
                 }
@@ -1056,30 +1095,36 @@ namespace Rito
                 for (int i = 0; i < validPropCount; i++)
                 {
                     var currentInfo = m.matPropertyList[i];
-                    var backupValue = m.__materialDefaultValues[i] = new MaterialPropertyAnimKey();
+                    var defaultValue = m.__materialDefaultValues[i] = new MaterialPropertyAnimKey();
                     var currentValue = m.__materialCurrentValues[i] = new MaterialPropertyAnimKey();
 
                     switch (currentInfo.propType)
                     {
                         case ShaderPropertyType.Float:
-                            backupValue.floatValue = currentValue.floatValue =
+                            defaultValue.floatValue = currentValue.floatValue =
                                 material.GetFloat(currentInfo.propName);
                             break;
 
                         case ShaderPropertyType.Range:
-                            backupValue.floatValue = currentValue.floatValue =
+                            defaultValue.floatValue = currentValue.floatValue =
                                 material.GetFloat(currentInfo.propName);
 
                             currentValue.range = shader.GetPropertyRangeLimits(m.matPropertyList[i].__propIndex);
+
+                            // Range 타입일 경우, MinMax 바뀌었을 수 있으니 모든 애니메이션 키마다 다시 적용
+                            for (int j = 0; j < currentInfo.animKeyList.Count; j++)
+                            {
+                                currentInfo.animKeyList[j].range = currentValue.range;
+                            }
                             break;
 
                         case ShaderPropertyType.Vector:
-                            backupValue.vector4 = currentValue.vector4 =
+                            defaultValue.vector4 = currentValue.vector4 =
                                 material.GetVector(currentInfo.propName);
                             break;
 
                         case ShaderPropertyType.Color:
-                            backupValue.color = currentValue.color =
+                            defaultValue.color = currentValue.color =
                                 material.GetColor(currentInfo.propName);
                             break;
                     }
@@ -1131,14 +1176,15 @@ namespace Rito
              *                               Drawing Methods
              ************************************************************************/
             #region .
-            private void DrawDefaultFields()
+            /// <summary> 상단 옵션 그리기 </summary>
+            private void DrawOptionFields()
             {
                 int fieldCount;
 
                 if (m.effectMaterial == null) fieldCount = 1;
                 else
                 {
-                    fieldCount = 6;
+                    fieldCount = 8;
 #if SHOW_MATERIAL_NAME
                     fieldCount++;
 #endif
@@ -1500,6 +1546,29 @@ namespace Rito
                     }
                 }
 
+
+                // 타임스케일 영향 받을지 여부
+                using (new RitoEditorGUI.HorizontalMarginScope())
+                {
+                    RitoEditorGUI.DrawPrefixLabelLayout(EngHan("Affected by Timescale", "타임스케일 영향 받기"));
+                    m.affectedByTimescale = EditorGUILayout.Toggle(m.affectedByTimescale);
+                }
+
+                // 재생 속도(float slider)
+                using (new RitoEditorGUI.HorizontalMarginScope())
+                {
+                    RitoEditorGUI.DrawPrefixLabelLayout(EngHan("Animation Play Speed", "애니메이션 재생 속도"));
+
+                    Color col = GUI.color;
+                    if (m.animPlaySpeed != 1f)
+                    {
+                        GUI.color = Color.cyan * 1.5f;
+                    }
+                    m.animPlaySpeed = EditorGUILayout.Slider(m.animPlaySpeed, 0f, 2f);
+
+                    GUI.color = col;
+                }
+
 #if !UNITY_2019_3_OR_NEWER
                 EditorGUILayout.Space();
 #endif
@@ -1536,6 +1605,7 @@ namespace Rito
                         if (m.__editMode)
                             m.currentFrame = EditorGUILayout.IntSlider((int)m.currentFrame, 0, (int)m.durationFrame);
                         else
+                            // 편집모드가 아닐 경우, 현재 프레임이 정수 캐스팅의 영향 받지 않도록
                             EditorGUILayout.IntSlider((int)m.currentFrame, 0, (int)m.durationFrame);
                     }
 
@@ -2262,6 +2332,11 @@ namespace Rito
                     // [2] 현재 선택된 키 존재
                     else if (selectedAnimKey != null)
                     {
+                        // 왼쪽 CTRL 누름
+                        bool lCtrlPressed = (Event.current.modifiers == EventModifiers.Control);
+                        // 왼쪽 Shift 누름
+                        bool lShiftPressed = (Event.current.modifiers == EventModifiers.Shift);
+
                         // 드래그 시 이동
                         if (IsLeftMouseDrag)
                         {
@@ -2270,13 +2345,48 @@ namespace Rito
                             float timeGoal =
                                 selectedKeyTimeOrFrame + (ratioOffset * (m.isTimeModeSeconds ? m.durationSeconds : m.durationFrame));
 
+                            if (m.isTimeModeSeconds)
+                            {
+                                // LCTRL 누르면 0.1초 단위로 스냅
+                                if (lCtrlPressed)
+                                {
+                                    timeGoal *= 10f;
+                                    timeGoal = Mathf.Round(timeGoal) * 0.1f;
+                                }
+                                // LSHIFT 누르면 0.05초 단위로 스냅
+                                else if (lShiftPressed)
+                                {
+                                    timeGoal *= 20f;
+                                    timeGoal = Mathf.Round(timeGoal) * 0.05f;
+                                }
+                            }
+                            else
+                            {
+                                // LCTRL 누르면 10프레임 단위로 스냅
+                                if (lCtrlPressed)
+                                {
+                                    timeGoal *= 0.1f;
+                                    timeGoal = Mathf.Round(timeGoal) * 10f;
+                                }
+                                // LSHIFT 누르면 5프레임 단위로 스냅
+                                else if (lShiftPressed)
+                                {
+                                    timeGoal *= 0.2f;
+                                    timeGoal = Mathf.Round(timeGoal) * 5f;
+                                }
+                            }
+
                             // 좌우 이동 허용 범위 내에서 키 이동
                             if (leftKeyTimeOrFrame < timeGoal && timeGoal < rightKeyTimeOrFrame)
                             {
                                 if (m.isTimeModeSeconds)
+                                {
                                     selectedAnimKey.time = timeGoal;
+                                }
                                 else
+                                {
                                     selectedAnimKey.frame = (int)timeGoal;
+                                }
                             }
 
                             Repaint();
@@ -2481,6 +2591,7 @@ namespace Rito
                 {
                     m.gameObject.SetActive(true);
                     m.__editMode = false;
+                    m.keepCurrentState = false;
                 }
                 if (pausePressed)
                 {
@@ -2817,7 +2928,7 @@ namespace Rito
                 const float LeftMargin = 6f;
                 const float IndexLabelWidth = 20f;
                 const float LabelWidth = 80f;
-                const float MinusButtonWidth = 40f;
+                const float MinusButtonWidth = 48f;
                 const float RightButtonMargin = 6f;
 
                 // 1. Time 슬라이더
@@ -3018,24 +3129,52 @@ namespace Rito
                 GUI.color = col;
 
                 RitoEditorGUI.DrawHorizontalSpace(MinusButtonWidth);
-                Rect setButtonRect = GUILayoutUtility.GetLastRect();
-                setButtonRect.xMax -= RightButtonMargin;
+                Rect cpButtonRect = GUILayoutUtility.GetLastRect();
+                cpButtonRect.xMax -= RightButtonMargin;
 
-                // Set 버튼 : 현재 마테리얼이 가진 값으로 값 설정
-                if (RitoEditorGUI.DrawButton(setButtonRect, "Set", Color.magenta * 1.5f))
+                Rect copyButtonRect = new Rect(cpButtonRect);
+                copyButtonRect.width *= 0.5f;
+
+                Rect pasteButtonRect = new Rect(copyButtonRect);
+                pasteButtonRect.x += pasteButtonRect.width;
+
+                // Copy 버튼 : 값 복사하기
+                if (RitoEditorGUI.DrawButton(copyButtonRect, "C", Color.magenta * 1.5f))
                 {
+                    clipboardValueType = mp.propType;
+                    if (clipboardValue == null)
+                        clipboardValue = new MaterialPropertyAnimKey();
+
                     switch (mp.propType)
                     {
                         case ShaderPropertyType.Float:
                         case ShaderPropertyType.Range:
-                            mpKey.floatValue = material.GetFloat(mp.propName);
+                            clipboardValue.floatValue = mpKey.floatValue;
                             break;
+
                         case ShaderPropertyType.Vector:
-                            mpKey.vector4 = material.GetVector(mp.propName);
-                            break;
                         case ShaderPropertyType.Color:
-                            mpKey.color = material.GetColor(mp.propName);
+                            clipboardValue.vector4 = mpKey.vector4;
                             break;
+                    }
+                }
+                // Paste 버튼 : 복사한 값 붙여넣기(타입 일치하는 경우에만)
+                if (RitoEditorGUI.DrawButton(pasteButtonRect, "P", Color.magenta * 1.5f))
+                {
+                    if (clipboardValue != null && clipboardValueType == mp.propType)
+                    {
+                        switch (mp.propType)
+                        {
+                            case ShaderPropertyType.Float:
+                            case ShaderPropertyType.Range:
+                                mpKey.floatValue = clipboardValue.floatValue;
+                                break;
+
+                            case ShaderPropertyType.Vector:
+                            case ShaderPropertyType.Color:
+                                mpKey.vector4 = clipboardValue.vector4;
+                                break;
+                        }
                     }
                 }
 
@@ -3513,19 +3652,22 @@ namespace Rito
         [MenuItem(HierarchyMenuItemTitle, false, 501)]
         private static void MenuItem()
         {
-            if (Selection.activeGameObject == null)
+            GameObject go = new GameObject("Screen Effect");
+            go.AddComponent<ScreenEffect>();
+
+            if (Selection.activeTransform != null)
             {
-                GameObject go = new GameObject("Screen Effect");
-                go.AddComponent<ScreenEffect>();
-                Selection.activeGameObject = go; // 선택
+                go.transform.SetParent(Selection.activeTransform);
             }
+
+            Selection.activeGameObject = go; // 선택
         }
 
-        [MenuItem(HierarchyMenuItemTitle, true)] // Validation
-        private static bool MenuItem_Validate()
-        {
-            return Selection.activeGameObject == null;
-        }
+        //[MenuItem(HierarchyMenuItemTitle, true)] // Validation
+        //private static bool MenuItem_Validate()
+        //{
+        //    return Selection.activeGameObject == null;
+        //}
 #endif
         #endregion
         /***********************************************************************

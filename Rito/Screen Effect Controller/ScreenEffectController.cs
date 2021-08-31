@@ -22,8 +22,7 @@ namespace Rito
         private const int INITIAL_EFFECT_CAPACITY = 8;
 
         private readonly List<ScreenEffect> _screenEffectList = new List<ScreenEffect>(INITIAL_EFFECT_CAPACITY);
-        private readonly List<ScreenEffect> _validEffectList = new List<ScreenEffect>(INITIAL_EFFECT_CAPACITY);
-        private RenderTexture[] _renderTexArr = new RenderTexture[INITIAL_EFFECT_CAPACITY];
+        private readonly List<ScreenEffect> _validEffectList  = new List<ScreenEffect>(INITIAL_EFFECT_CAPACITY);
 
 #if UNITY_EDITOR
         private event Action EffectListChanged;
@@ -34,59 +33,41 @@ namespace Rito
         {
             _validEffectList.Clear();
 
-            if (_screenEffectList.Count == 0)
+            // 1. Validation Check
+            for (int i = 0; i < _screenEffectList.Count; i++)
             {
-                Graphics.Blit(source, destination);
+                if (_screenEffectList[i] != null && _screenEffectList[i].effectMaterial != null)
+                    _validEffectList.Add(_screenEffectList[i]);
             }
-            else
-            {
-                // 1. Validation Check
-                for (int i = 0; i < _screenEffectList.Count; i++)
-                {
-                    if (_screenEffectList[i] != null && _screenEffectList[i].effectMaterial != null)
-                        _validEffectList.Add(_screenEffectList[i]);
-                }
-                int validCount = _validEffectList.Count;
+            int validCount = _validEffectList.Count;
 
-                // 2. Blit
-                if (validCount > 0)
-                {
-                    if (validCount == 1)
-                    {
-                        Graphics.Blit(source, destination, _validEffectList[0].effectMaterial);
-                    }
-                    else
+            // 2. Blit
+            switch (validCount)
+            {
+                // 유효한 스크린 이펙트가 없을 경우 : 스크린 그대로 출력
+                case 0:
+                    Graphics.Blit(source, destination);
+                    break;
+
+                case 1:
+                    Graphics.Blit(source, destination, _validEffectList[0].effectMaterial);
+                    break;
+
+                default:
                     {
                         // 순서 정렬
                         _validEffectList.Sort((a, b) => a.priority - b.priority);
 
-                        // 공간 동적 확보
-                        if (_renderTexArr.Length <= validCount)
-                        {
-                            _renderTexArr = new RenderTexture[validCount * 2]; // 넉넉히 확보
-                        }
-
-                        _renderTexArr[0] = source;
-                        _renderTexArr[validCount] = destination;
-
-                        for (int i = 1; i < validCount; i++)
-                        {
-                            if (_renderTexArr[i] == null)
-                                _renderTexArr[i] = new RenderTexture(source);
-                        }
-
                         // Blit
-                        for (int i = 0; i < validCount; i++)
+                        int i = 0;
+                        for (; i < validCount - 1; i++)
                         {
-                            Graphics.Blit(_renderTexArr[i], _renderTexArr[i + 1], _validEffectList[i].effectMaterial);
+                            Graphics.Blit(source, source, _validEffectList[i].effectMaterial);
                         }
+
+                        Graphics.Blit(source, destination, _validEffectList[i].effectMaterial);
                     }
-                }
-                else
-                {
-                    // 유효한 스크린 이펙트가 없을 경우 : 스크린 그대로 출력
-                    Graphics.Blit(source, destination);
-                }
+                    break;
             }
         }
 
