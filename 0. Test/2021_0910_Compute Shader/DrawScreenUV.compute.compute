@@ -1,0 +1,20 @@
+﻿#pragma kernel CSMain
+
+// 커널 계산을 마치고 결과를 출력할 입출력 텍스쳐
+RWTexture2D<float4> result;
+
+// 스레드 그룹 당 쉐이더 개수 = 8 * 8 * 1 = 64
+// 2D 텍스쳐에 대한 연산이므로 2차원으로 스레드 할당
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // 텍스쳐 변수(렌더 텍스쳐)의 X, Y 성분의 길이, 즉 너비와 높이를 찾아온다.
+    uint width, height;
+    result.GetDimensions(width, height);
+
+    // 스크린 픽셀 좌표를 [0, 1] 범위로 변환한다.
+    float2 uv = id.xy / float2(width, height);
+
+    // 텍스쳐에 색상을 넣는다.
+    result[id.xy] = float4(uv, 0, 1);
+}

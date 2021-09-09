@@ -1443,12 +1443,12 @@ GameObject:
   - component: {fileID: 521961401}
   - component: {fileID: 521961402}
   m_Layer: 0
-  m_Name: Screen Effect [Rito_Screen Vignette]
+  m_Name: Screen Effect [Screen Vignette]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &521961401
 Transform:
   m_ObjectHideFlags: 0
@@ -1501,28 +1501,28 @@ MonoBehaviour:
     vector4: {x: 0.5, y: 0, z: 0, w: 0}
   - time: 0
     frame: 0
-    floatValue: 0.5
+    floatValue: 0.731
     range: {x: 0, y: 0}
     min: 0
     max: 0
-    color: {r: 0.5, g: 0, b: 0, a: 0}
-    vector4: {x: 0.5, y: 0, z: 0, w: 0}
+    color: {r: 0.731, g: 0, b: 0, a: 0}
+    vector4: {x: 0.731, y: 0, z: 0, w: 0}
   - time: 0
     frame: 0
-    floatValue: 0.2
+    floatValue: 0.27
     range: {x: 0, y: 0}
     min: 0
     max: 0
-    color: {r: 0.2, g: 0, b: 0, a: 0}
-    vector4: {x: 0.2, y: 0, z: 0, w: 0}
+    color: {r: 0.27, g: 0, b: 0, a: 0}
+    vector4: {x: 0.27, y: 0, z: 0, w: 0}
   - time: 0
     frame: 0
-    floatValue: 0.2
+    floatValue: 0.25
     range: {x: 0, y: 0}
     min: 0
     max: 0
-    color: {r: 0.2, g: 0, b: 0, a: 0}
-    vector4: {x: 0.2, y: 0, z: 0, w: 0}
+    color: {r: 0.25, g: 0, b: 0, a: 0}
+    vector4: {x: 0.25, y: 0, z: 0, w: 0}
   - time: 0
     frame: 0
     floatValue: 1
@@ -1558,20 +1558,20 @@ MonoBehaviour:
     vector4: {x: 0.5, y: 0, z: 1, w: 0}
   - time: 0
     frame: 0
-    floatValue: 0.731
+    floatValue: 0.646
     range: {x: 0, y: 1}
     min: 0
     max: 1
-    color: {r: 0.731, g: 0, b: 1, a: 0}
-    vector4: {x: 0.731, y: 0, z: 1, w: 0}
+    color: {r: 0.646, g: 0, b: 1, a: 0}
+    vector4: {x: 0.646, y: 0, z: 1, w: 0}
   - time: 0
     frame: 0
-    floatValue: 0.27
+    floatValue: 0.45
     range: {x: 0, y: 2}
     min: 0
     max: 2
-    color: {r: 0.27, g: 0, b: 2, a: 0}
-    vector4: {x: 0.27, y: 0, z: 2, w: 0}
+    color: {r: 0.45, g: 0, b: 2, a: 0}
+    vector4: {x: 0.45, y: 0, z: 2, w: 0}
   - time: 0
     frame: 0
     floatValue: 0.25
@@ -1598,12 +1598,12 @@ MonoBehaviour:
     vector4: {x: 1, y: 0, z: 0, w: 0}
   - time: 0
     frame: 0
-    floatValue: 0
-    range: {x: 0, y: 0}
-    min: 0
-    max: 0
-    color: {r: 0, g: 0, b: 0, a: 0}
-    vector4: {x: 0, y: 0, z: 0, w: 0}
+    floatValue: 0.9911353
+    range: {x: 1, y: 0.7971698}
+    min: 1
+    max: 0.7971698
+    color: {r: 0.9911353, g: 1, b: 0.7971698, a: 0}
+    vector4: {x: 0.9911353, y: 1, z: 0.7971698, w: 0}
   matPropertyList:
   - material: {fileID: 1796131372}
     propName: _PosX
@@ -2707,7 +2707,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &946980365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4844,7 +4844,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1718472424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5122,12 +5122,12 @@ Material:
     m_Floats:
     - _Height: 1
     - _PosX: 0.5
-    - _PosY: 0.731
-    - _Radius: 0.27
+    - _PosY: 0.646
+    - _Radius: 0.45
     - _Smoothness: 0.25
     - _Width: 1
     m_Colors:
-    - _Color: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.9911353, g: 1, b: 0.7971698, a: 0}
 --- !u!1 &1799536507
 GameObject:
   m_ObjectHideFlags: 0
