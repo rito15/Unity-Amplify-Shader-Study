@@ -6,7 +6,12 @@ ModelImporter:
   - first:
       43: 4300000
     second: Robot2
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Robot
+    second: {fileID: 2100000, guid: 0aa851515cd3747d6b3b3e461199a2ed, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

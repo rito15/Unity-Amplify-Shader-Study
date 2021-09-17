@@ -349,6 +349,7 @@ namespace Rito
             currentSeconds += DeltaTime * animPlaySpeed;
             if (currentSeconds >= durationSeconds)
             {
+                currentSeconds = durationSeconds;
                 DoStopActions();
             }
         }
@@ -370,6 +371,7 @@ namespace Rito
 
             if (currentFrame >= durationFrame)
             {
+                currentFrame = durationFrame;
                 DoStopActions();
             }
         }
@@ -1789,7 +1791,7 @@ namespace Rito
                     EditorStyles.helpBox.fontSize = 12;
 
                     EditorGUILayout.HelpBox(
-                        EngHan("Cannot create animations if duration is 0.", "애니메이션을 생성하려면 지속 시간을 설정해야 합니다."),
+                        EngHan("Cannot create animations if duration is 0.", "애니메이션을 적용하려면 지속 시간을 설정해야 합니다."),
                         MessageType.Info);
 
                     EditorStyles.helpBox.fontSize = fs;
@@ -2126,28 +2128,26 @@ namespace Rito
                 Event current = Event.current;
                 Vector2 mPos = current.mousePosition;
 
+                // 그래프 영역을 클릭할 경우, 재생 멈추고 진행도 변경
                 if (graphRect.Contains(mPos) && (current.type == EventType.MouseDown || current.type == EventType.MouseDrag))
                 {
                     if (isPlayMode)
                     {
                         // 편집 모드가 아닐 경우, 마우스 클릭 시 편집 모드 진입
-                        if (m.__editMode == false)
-                        {
-                            m.__editMode = true;
-                        }
+                        m.__editMode = true;
 
-                        // 편집 모드일 경우, 마우스 클릭 좌표에 따라 진행도 변경
-                        if (m.__editMode)
-                        {
-                            // X : 0. ~ 1.
-                            float ratio = (mPos.x - graphRect.x) / graphRect.width;
+                        // 상태 고정 해제
+                        m.keepCurrentState = false;
 
-                            // 진행도 변경
-                            if (m.isTimeModeSeconds)
-                                m.currentSeconds = m.durationSeconds * ratio;
-                            else
-                                m.currentFrame = (m.durationFrame * ratio);
-                        }
+                        // 마우스 클릭 좌표에 따라 진행도 변경
+                        // X : 0. ~ 1.
+                        float ratio = (mPos.x - graphRect.x) / graphRect.width;
+
+                        // 진행도 변경
+                        if (m.isTimeModeSeconds)
+                            m.currentSeconds = m.durationSeconds * ratio;
+                        else
+                            m.currentFrame = (m.durationFrame * ratio);
                     }
 
                     // 그래프 마우스 클릭 방지
@@ -3565,7 +3565,7 @@ namespace Rito
 #else
             iconRect.x = 0f;
 #endif
-            if (goActive && matIsNotNull)
+            if (goActive && matIsNotNull && iconTexture != null)
             {
                 GUI.DrawTexture(iconRect, iconTexture);
             }

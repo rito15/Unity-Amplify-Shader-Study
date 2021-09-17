@@ -22,12 +22,14 @@ namespace Rito
         private const int INITIAL_EFFECT_CAPACITY = 8;
 
         private readonly List<ScreenEffect> _screenEffectList = new List<ScreenEffect>(INITIAL_EFFECT_CAPACITY);
-        private readonly List<ScreenEffect> _validEffectList  = new List<ScreenEffect>(INITIAL_EFFECT_CAPACITY);
+        private readonly List<ScreenEffect> _validEffectList = new List<ScreenEffect>(INITIAL_EFFECT_CAPACITY);
 
 #if UNITY_EDITOR
         private event Action EffectListChanged;
-        [SerializeField] private bool autoUpdateInEditMode;
+        [HideInInspector, SerializeField] private bool autoUpdateInEditMode;
 #endif
+
+        private RenderTexture[] _rts = new RenderTexture[2];
 
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
@@ -55,17 +57,21 @@ namespace Rito
 
                 default:
                     {
-                        // 순서 정렬
+                        _rts[0] = source;
+                        if (_rts[1] == null)
+                            _rts[1] = new RenderTexture(source);
+
+                        // 우선순위 정렬
                         _validEffectList.Sort((a, b) => a.priority - b.priority);
 
                         // Blit
                         int i = 0;
                         for (; i < validCount - 1; i++)
                         {
-                            Graphics.Blit(source, source, _validEffectList[i].effectMaterial);
+                            Graphics.Blit(_rts[i % 2], _rts[(i + 1) % 2], _validEffectList[i].effectMaterial);
                         }
 
-                        Graphics.Blit(source, destination, _validEffectList[i].effectMaterial);
+                        Graphics.Blit(_rts[i % 2], destination, _validEffectList[i].effectMaterial);
                     }
                     break;
             }
