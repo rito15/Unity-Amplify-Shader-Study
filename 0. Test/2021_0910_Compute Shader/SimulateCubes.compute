@@ -1,0 +1,21 @@
+﻿#pragma kernel CSMain
+
+// 컴퓨트 버퍼에 사용될 타입
+// CPU측의 구조체와 일치시킨다.
+struct Cube
+{
+    float3 position;
+    float4 color;
+};
+
+// 컴퓨트 버퍼를 통해 공유될 변수
+RWStructuredBuffer<Cube> cubes;
+
+float resolution;
+
+// 1차원으로 스레드 그룹 당 스레드를 10개씩 할당한다.
+[numthreads(10,1,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+
+}

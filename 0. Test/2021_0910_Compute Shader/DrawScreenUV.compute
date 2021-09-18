@@ -2,6 +2,7 @@
 
 // 커널 계산을 마치고 결과를 출력할 입출력 텍스쳐
 RWTexture2D<float4> result;
+float time;
 
 // 스레드 그룹 당 쉐이더 개수 = 8 * 8 * 1 = 64
 // 2D 텍스쳐에 대한 연산이므로 2차원으로 스레드 할당
@@ -14,6 +15,8 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 
     // 스크린 픽셀 좌표를 [0, 1] 범위로 변환한다.
     float2 uv = id.xy / float2(width, height);
+
+    uv.y = fmod(uv.y + time, 1.0);
 
     // 텍스쳐에 색상을 넣는다.
     result[id.xy] = float4(uv, 0, 1);

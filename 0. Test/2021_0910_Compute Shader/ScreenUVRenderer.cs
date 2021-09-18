@@ -14,11 +14,17 @@ public class ScreenUVRenderer : MonoBehaviour
     // 컴퓨트 쉐이더 객체를 인스펙터에서 할당한다.
     public ComputeShader computeShader;
     private RenderTexture _renderTarget;
+    private float _time;
 
     // 매프레임 화면의 렌더가 끝나면 호출된다.
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         Render(destination);
+    }
+
+    private void Update()
+    {
+        _time += Time.deltaTime;
     }
 
     private void Render(RenderTexture destination)
@@ -28,6 +34,8 @@ public class ScreenUVRenderer : MonoBehaviour
 
         // 렌더 텍스쳐를 컴퓨트 쉐이더의 result 변수에 입출력 텍스쳐로 할당한다.
         computeShader.SetTexture(0, "result", _renderTarget);
+
+        computeShader.SetFloat("time", _time);
 
         // 2차원 X, Y 스레드 그룹의 개수를 계산하여 컴퓨트 쉐이더를 실행한다.
         // 각 차원마다 (스레드 그룹 개수 * 스레드 그룹당 스레드 개수)는 해당 차원의 스크린 픽셀 개수이다.
