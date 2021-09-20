@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Directional 2 Color Dissolve_Monster
-  m_Shader: {fileID: 4800000, guid: 5127cad8a6af58a44b1065b39aca1999, type: 3}
+  m_Name: Test_Two Color Dissolve
+  m_Shader: {fileID: 4800000, guid: a87ad88b8d5e2e244bace68e2a9435b5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -19,11 +19,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
+    - _MainTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -33,17 +29,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Dissolve: 0
-    - _EndOffset: 2.88
-    - _MaxOffset: 2.8754582
-    - _MinOffset: 0.023006916
-    - _NoiseScale: 10
-    - _Smoothness: 0.182
-    - _StartOffset: 0
-    - _T: 0.026
-    - _ThicknessA: 0.087
-    - _ThicknessB: 0.105
+    - _MaxOffset: 1
+    - _MinOffset: -1
+    - _NoiseScale: 5
+    - _Smoothness: 0.4
+    - _ThicknessA: 0.05
+    - _ThicknessB: 0.05
     - __dirty: 0
     m_Colors:
-    - _ColorA: {r: 2.8659463, g: 0.41932276, b: 3.482202, a: 0}
-    - _ColorB: {r: 3.299879, g: 3.9999995, b: 0.62827224, a: 0}
+    - _ColorA: {r: 0.972549, g: 4, b: 3.07451, a: 0}
+    - _ColorB: {r: 4, g: 3.858824, b: 0.7686275, a: 0}
     - _DissolveDirection: {r: 0, g: 1, b: 0, a: 0}
