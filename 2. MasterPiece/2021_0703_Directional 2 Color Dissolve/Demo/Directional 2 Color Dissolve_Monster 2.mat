@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Directional 2 Color Dissolve_Monster
+  m_Name: Directional 2 Color Dissolve_Monster 2
   m_Shader: {fileID: 4800000, guid: a87ad88b8d5e2e244bace68e2a9435b5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
@@ -38,8 +38,8 @@ Material:
     m_Floats:
     - _Dissolve: 0
     - _EndOffset: 2.88
-    - _MaxOffset: 2.876662
-    - _MinOffset: 0.01978159
+    - _MaxOffset: 2.0220647
+    - _MinOffset: -0.58490735
     - _NoiseScale: 10
     - _Smoothness: 0.182
     - _StartOffset: 0
@@ -50,4 +50,4 @@ Material:
     m_Colors:
     - _ColorA: {r: 2.8659463, g: 0.41932276, b: 3.482202, a: 0}
     - _ColorB: {r: 3.299879, g: 3.9999995, b: 0.62827224, a: 0}
-    - _DissolveDirection: {r: 0, g: 1, b: 0, a: 0}
+    - _DissolveDirection: {r: 2, g: 2, b: -1, a: 0}

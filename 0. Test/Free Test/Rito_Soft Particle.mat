@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Rito_Soft Particle
-  m_Shader: {fileID: 4800000, guid: b4b37d9eaf321ea41a993f4a5b541767, type: 3}
+  m_Shader: {fileID: 4800000, guid: 0248cb2e96d3a794ba1e6c52bd45182f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -30,7 +30,5 @@ Material:
     m_Floats:
     - _Intensity: 1
     - _SoftParticleFactor: 0.5
-    - _T: -0.21
     - __dirty: 0
-    - _softparticles: 0
     m_Colors: []

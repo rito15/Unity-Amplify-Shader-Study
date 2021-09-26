@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Test_Two Color Dissolve
-  m_Shader: {fileID: 4800000, guid: a87ad88b8d5e2e244bace68e2a9435b5, type: 3}
+  m_Shader: {fileID: 4800000, guid: afab2d606a242dd49bc40c89c908bb8a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -29,6 +33,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Dissolve: 0
+    - _Intensity: 1
     - _MaxOffset: 1
     - _MinOffset: -1
     - _NoiseScale: 5

@@ -38,8 +38,8 @@ Material:
     m_Floats:
     - _Dissolve: 0
     - _EndOffset: 0.5
-    - _MaxOffset: 0.52
-    - _MinOffset: -0.5
+    - _MaxOffset: 0.49683672
+    - _MinOffset: -0.4956004
     - _NoiseScale: 5.9
     - _Smoothness: 0.182
     - _StartOffset: -0.5
@@ -50,4 +50,4 @@ Material:
     m_Colors:
     - _ColorA: {r: 0.41932276, g: 0.60324866, b: 3.482202, a: 0}
     - _ColorB: {r: 2.201599, g: 0.6492144, b: 3.9999995, a: 0}
-    - _DissolveDirection: {r: -1, g: 1, b: 1, a: 0}
+    - _DissolveDirection: {r: -3, g: 1, b: 1, a: 0}

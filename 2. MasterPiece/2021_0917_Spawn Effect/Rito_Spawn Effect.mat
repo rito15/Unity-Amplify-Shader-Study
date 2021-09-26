@@ -43,7 +43,7 @@ Material:
     - _Pow: 5
     - _Smoothness: 0.56
     - _Sub: 0
-    - _T: 0.968
+    - _T: 1
     - _Tiling: 32
     - _TilingX: 48
     - _TilingY: 24

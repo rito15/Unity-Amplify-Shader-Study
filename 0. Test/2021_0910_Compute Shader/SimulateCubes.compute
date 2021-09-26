@@ -9,13 +9,27 @@ struct Cube
 };
 
 // 컴퓨트 버퍼를 통해 공유될 변수
-RWStructuredBuffer<Cube> cubes;
+RWStructuredBuffer<Cube> cubeBuffer;
+float time;
+float updateSpeed;
+float rowSize;
+float waveFrequency;
 
-float resolution;
-
-// 1차원으로 스레드 그룹 당 스레드를 10개씩 할당한다.
-[numthreads(10,1,1)]
+// 1차원으로 스레드 그룹 당 스레드를 할당한다.
+[numthreads(16,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
+    float t = time * updateSpeed;
+    float t2 = t * 0.5;
+    float i = fmod(id.x, rowSize);
+    float wave = (i + t) * waveFrequency;
 
+    // 1. 위치
+    float3 pos = cubeBuffer[id.x].position;
+    pos.y = sin(wave);
+
+    // 2. 색상
+    float k = sin(i / rowSize + t2) * 0.5 + 0.5;
+    cubeBuffer[id.x].position = pos;
+    cubeBuffer[id.x].color = lerp(float4(1, 0, 0, 1), float4(0, 0, 1, 1), k);
 }
