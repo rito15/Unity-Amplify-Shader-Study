@@ -78,7 +78,7 @@ public class VacuumCleanerSimulator : MonoBehaviour
         positionBuffer.SetData(dirtPositions);
         dirtMaterial.SetBuffer("_PositionBuffer", positionBuffer);
 
-        bounds = new Bounds(Vector3.zero, Vector3.one * 100f);
+        bounds = new Bounds(Vector3.zero, Vector3.one * distributionRange); // ?
     }
     private void UpdatePosition()
     {
