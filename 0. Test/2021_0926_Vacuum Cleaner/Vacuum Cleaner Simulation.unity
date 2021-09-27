@@ -588,7 +588,7 @@ MonoBehaviour:
   distributionRange: 100
   dirtScale: 0.1
   dirtCompute: {fileID: 7200000, guid: a725fe981ed6cbf45a47ee3e356c76dc, type: 3}
-  useGPU: 0
+  useGPU: 1
 --- !u!4 &1936900217
 Transform:
   m_ObjectHideFlags: 0
