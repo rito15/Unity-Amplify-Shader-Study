@@ -50,6 +50,8 @@ public class DirtManager : MonoBehaviour
     private int kernelUpdateID;
     private int kernelUpdateGroupSizeX;
 
+    private float deltaTime;
+
     /***********************************************************************
     *                               Unity Events
     ***********************************************************************/
@@ -63,6 +65,7 @@ public class DirtManager : MonoBehaviour
 
     private void Update()
     {
+        deltaTime = Time.deltaTime;
         UpdateDirtPositionsGPU();
 
         dirtMaterial.SetFloat("_Scale", dirtScale);
@@ -159,16 +162,23 @@ public class DirtManager : MonoBehaviour
     private void UpdateDirtPositionsGPU()
     {
         if (cleanerHead.Running == false) return;
+        ref var head = ref cleanerHead;
 
-        Vector3 centerPos = cleanerHead.Position;
-        float sqrRange = cleanerHead.SqrSuctionRange;
-        float sqrDeathRange = cleanerHead.DeathRange * cleanerHead.DeathRange;
-        float sqrForce = Time.deltaTime * cleanerHead.SuctionForce * cleanerHead.SuctionForce;
+        Vector3 centerPos = head.Position;
+        float sqrRange = head.SqrSuctionRange;
+        float sqrDeathRange = head.DeathRange * head.DeathRange;
+        float sqrForce = deltaTime * head.SuctionForce * head.SuctionForce;
+
+        dirtCompute.SetFloat("deltaTime", deltaTime);
 
         dirtCompute.SetVector("centerPos", centerPos);
         dirtCompute.SetFloat("sqrRange", sqrRange);
         dirtCompute.SetFloat("sqrDeathRange", sqrDeathRange);
         dirtCompute.SetFloat("sqrForce", sqrForce);
+
+        // 원뿔
+        dirtCompute.SetVector("forward", head.Forward);
+        dirtCompute.SetFloat("dotThreshold", Mathf.Cos(head.SuctionAngleRad));
 
         dirtCompute.Dispatch(kernelUpdateID, kernelUpdateGroupSizeX, 1, 1);
 
