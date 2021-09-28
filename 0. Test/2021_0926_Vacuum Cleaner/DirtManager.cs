@@ -10,10 +10,11 @@ using System.Threading;
 // https://www.youtube.com/watch?v=PGk0rnyTa1U
 
 [DisallowMultipleComponent]
-public class DirtsManager : MonoBehaviour
+public class DirtManager : MonoBehaviour
 {
     private const int TRUE = 1;
     private const int FALSE = 0;
+
     private struct Dirt
     {
         public Vector3 position;
@@ -30,6 +31,7 @@ public class DirtsManager : MonoBehaviour
     [Space]
     [SerializeField] private int instanceNumber = 100000;    // 생성할 먼지 개수
     [SerializeField] private float distributionRange = 100f; // 먼지 분포 범위(정사각형 너비)
+    [SerializeField] private float distributionHeight = 5f;  // 먼지 분포 높이
     [Range(0.01f, 2f)]
     [SerializeField] private float dirtScale = 1f;           // 먼지 크기
 
@@ -44,7 +46,10 @@ public class DirtsManager : MonoBehaviour
 
     private uint[] aliveNumberArray;
     private int aliveNumber;
-    int kernelGroupSizeX;
+
+    private int kernelPopulateID;
+    private int kernelUpdateID;
+    private int kernelUpdateGroupSizeX;
 
     /***********************************************************************
     *                               Unity Events
@@ -54,15 +59,12 @@ public class DirtsManager : MonoBehaviour
     {
         InitBuffers();
         InitComputeShader();
+        PopulateDirts();
     }
 
-    public bool useGPU;
     private void Update()
     {
-        if (useGPU)
-            UpdateDirtPositionsGPU();
-        else
-            UpdateDirtPositionsCPU();
+        UpdateDirtPositionsGPU();
 
         dirtMaterial.SetFloat("_Scale", dirtScale);
         Graphics.DrawMeshInstancedIndirect(dirtMesh, 0, dirtMaterial, frustumOverlapBounds, argsBuffer);
@@ -106,11 +108,9 @@ public class DirtsManager : MonoBehaviour
         argsBuffer = new ComputeBuffer(1, 5 * sizeof(uint), ComputeBufferType.IndirectArguments);
         argsBuffer.SetData(argsData);
 
-        PopulateDirts();
-
         // Dirt Buffer
+        dirtArray = new Dirt[instanceNumber];
         dirtBuffer = new ComputeBuffer(instanceNumber, sizeof(float) * 3 + sizeof(int));
-        dirtBuffer.SetData(dirtArray);
         dirtMaterial.SetBuffer("_DirtBuffer", dirtBuffer);
 
         // Alive Number Buffer
@@ -125,62 +125,40 @@ public class DirtsManager : MonoBehaviour
     /// <summary> 컴퓨트 쉐이더 초기화 </summary>
     private void InitComputeShader()
     {
-        dirtCompute.SetBuffer(0, "dirtBuffer", dirtBuffer);
-        dirtCompute.SetBuffer(0, "aliveNumberBuffer", aliveNumberBuffer);
-        dirtCompute.GetKernelThreadGroupSizes(0, out uint tx, out _, out _);
-        kernelGroupSizeX = Mathf.CeilToInt((float)instanceNumber / tx);
+        kernelPopulateID = dirtCompute.FindKernel("Populate");
+        kernelUpdateID   = dirtCompute.FindKernel("Update");
+
+        dirtCompute.SetBuffer(kernelPopulateID, "dirtBuffer", dirtBuffer);
+        dirtCompute.SetBuffer(kernelUpdateID, "dirtBuffer", dirtBuffer);
+        dirtCompute.SetBuffer(kernelUpdateID, "aliveNumberBuffer", aliveNumberBuffer);
+
+        dirtCompute.GetKernelThreadGroupSizes(kernelUpdateID, out uint tx, out _, out _);
+        kernelUpdateGroupSizeX = Mathf.CeilToInt((float)instanceNumber / tx);
     }
 
     /// <summary> 먼지들을 영역 내의 무작위 위치에 생성한다. </summary>
     private void PopulateDirts()
     {
-        dirtArray = new Dirt[instanceNumber];
+        Vector3 boundsMin, boundsMax;
+        boundsMin.x = boundsMin.z = -0.5f * distributionRange;
+        boundsMax.x = boundsMax.z = -boundsMin.x;
+        boundsMin.y = 0f;
+        boundsMax.y = distributionHeight;
 
-        float min = -0.5f * distributionRange;
-        float max = -min;
-        for (int i = 0; i < instanceNumber; i++)
-        {
-            float x = UnityEngine.Random.Range(min, max);
-            float z = UnityEngine.Random.Range(min, max);
-            dirtArray[i].position = new Vector3(x, 0f, z);
-            dirtArray[i].isAlive = TRUE;
-        }
+        dirtCompute.SetFloat("width", Mathf.Sqrt((float)instanceNumber));
+        dirtCompute.SetVector("boundsMin", boundsMin);
+        dirtCompute.SetVector("boundsMax", boundsMax);
+
+        dirtCompute.GetKernelThreadGroupSizes(kernelPopulateID, out uint tx, out _, out _);
+        int groupSizeX = Mathf.CeilToInt((float)instanceNumber / tx);
+
+        dirtCompute.Dispatch(kernelPopulateID, groupSizeX, 1, 1);
     }
     #endregion
     /***********************************************************************
     *                               Update Methods
     ***********************************************************************/
     #region .
-    private void UpdateDirtPositionsCPU()
-    {
-        if (cleanerHead.Running == false) return;
-
-        Vector3 centerPos = cleanerHead.Position;
-        float sqrRange = cleanerHead.SqrSuctionRange;
-        float sqrDeathRange = cleanerHead.DeathRange * cleanerHead.DeathRange;
-        float sqrForce = Time.deltaTime * cleanerHead.SuctionForce * cleanerHead.SuctionForce;
-
-        Parallel.For(0, instanceNumber, i =>
-        {
-            if (dirtArray[i].isAlive == FALSE) return;
-
-            float sqrDist = Vector3.SqrMagnitude(centerPos - dirtArray[i].position);
-
-            if (sqrDist < sqrDeathRange)
-            {
-                dirtArray[i].isAlive = FALSE;
-                Interlocked.Decrement(ref aliveNumber);
-            }
-            else if (sqrDist < sqrRange)
-            {
-                Vector3 dir = (centerPos - dirtArray[i].position).normalized;
-                float weightedForce = sqrForce / sqrDist;
-                dirtArray[i].position += dir * weightedForce;
-            }
-        });
-
-        dirtBuffer.SetData(dirtArray);
-    }
 
     private void UpdateDirtPositionsGPU()
     {
@@ -196,7 +174,7 @@ public class DirtsManager : MonoBehaviour
         dirtCompute.SetFloat("sqrDeathRange", sqrDeathRange);
         dirtCompute.SetFloat("sqrForce", sqrForce);
 
-        dirtCompute.Dispatch(0, kernelGroupSizeX, 1, 1);
+        dirtCompute.Dispatch(kernelUpdateID, kernelUpdateGroupSizeX, 1, 1);
 
         aliveNumberBuffer.GetData(aliveNumberArray);
         aliveNumber = (int)aliveNumberArray[0];

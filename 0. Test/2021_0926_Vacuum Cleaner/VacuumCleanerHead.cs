@@ -19,6 +19,9 @@ public class VacuumCleanerHead : MonoBehaviour
     [Range(0.01f, 5f)]
     [SerializeField] private float deathRange = 0.2f;
 
+    [Range(0.01f, 100f)]
+    [SerializeField] private float moveSpeed = 50f;
+
     public bool Running => run;
     public float SqrSuctionRange => suctionRange * suctionRange;
     public float SuctionForce => suctionForce;
@@ -32,5 +35,26 @@ public class VacuumCleanerHead : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(Position, deathRange);
+    }
+
+    private void Update()
+    {
+        // On/Off
+        if (Input.GetKeyDown(KeyCode.Space))
+            run ^= true;
+
+        // Move
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+        float y = 0f;
+        if (Input.GetKey(KeyCode.E)) y += 1f;
+        else if (Input.GetKey(KeyCode.Q)) y -= 1f;
+
+        Vector3 moveVec = new Vector3(x, y, z).normalized * moveSpeed;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+            moveVec *= 2f;
+
+        transform.Translate(moveVec * Time.deltaTime, Space.World);
     }
 }

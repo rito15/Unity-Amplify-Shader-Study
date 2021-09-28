@@ -1,0 +1,87 @@
+﻿
+#pragma kernel Populate
+#pragma kernel Update
+
+#define TRUE 1
+#define FALSE 0
+
+struct Dirt
+{
+    float3 position;
+    int isAlive;
+};
+
+/*************************************************
+/*                     Methods
+/*************************************************/
+float Random(float2 seed)
+{
+    return frac(sin(dot(seed, float2(73.867, 25.241))) * 39482.17593);
+}
+float RandomRange(float2 seed, float min, float max)
+{
+    return lerp(min, max, Random(seed)); 
+}
+float3 RandomRange3(float2 seed, float3 min, float3 max)
+{
+    float3 vec;
+    vec.x = RandomRange(seed, min.x, max.x);
+    vec.y = RandomRange(seed + 7.219, min.y, max.y);
+    vec.z = RandomRange(seed + 79.714, min.z, max.z);
+    return vec;
+}
+
+/*************************************************
+/*                     Variables
+/*************************************************/
+RWStructuredBuffer<Dirt> dirtBuffer;
+RWStructuredBuffer<uint> aliveNumberBuffer; // 생존한 먼지 개수
+
+float3 boundsMin; // 먼지 생성 영역 - 최소 지점
+float3 boundsMax; // 먼지 생성 영역 - 최대 지점
+
+float3 centerPos;
+float sqrRange;
+float sqrDeathRange;
+float sqrForce;
+
+/*************************************************
+/*                     Kernels
+/*************************************************/
+
+// 0 - 초기 생성
+[numthreads(64,1,1)]
+void Populate (uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+
+    float width = boundsMax.x - boundsMin.x;
+    float f = float(i);
+    float2 uv = float2(f % width, f / width) / width;
+    
+    dirtBuffer[i].position = RandomRange3(uv, boundsMin, boundsMax);
+    dirtBuffer[i].isAlive = TRUE;
+}
+
+// 1 - 실시간 업데이트
+[numthreads(64,1,1)]
+void Update (uint3 id : SV_DispatchThreadID)
+{
+    uint i = id.x;
+    if(dirtBuffer[i].isAlive == FALSE) return;
+    
+    float3 offs = (centerPos - dirtBuffer[i].position);
+    float sqrDist = (offs.x * offs.x) + (offs.y * offs.y) + (offs.z * offs.z);
+
+    if (sqrDist < sqrDeathRange)
+    {
+        dirtBuffer[i].isAlive = FALSE;
+        InterlockedAdd(aliveNumberBuffer[0], -1);
+    }
+    else if (sqrDist < sqrRange)
+    {
+        float3 dir = normalize(centerPos - dirtBuffer[i].position);
+        float weightedForce = sqrForce / sqrDist;
+        dirtBuffer[i].position += dir * weightedForce;
+    }
+}
