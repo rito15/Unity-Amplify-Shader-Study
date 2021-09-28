@@ -12,11 +12,17 @@ using System;
 public class VacuumCleanerHead : MonoBehaviour
 {
     [SerializeField] private bool run = true;
-    [Range(0f, 50f)]
+
+    [Range(0f, 50f), Tooltip("빨아들이는 힘")]
     [SerializeField] private float suctionForce = 1f;
-    [Range(1f, 20f)]
+
+    [Range(1f, 20f), Tooltip("빨아들이는 범위(거리)")]
     [SerializeField] private float suctionRange = 5f;
-    [Range(0.01f, 5f)]
+
+    [Range(0.01f, 90f), Tooltip("빨아들이는 원뿔 각도")]
+    [SerializeField] private float suctionAngle = 45f;
+
+    [Range(0.01f, 5f), Tooltip("먼지가 사망하는 영역 반지름")]
     [SerializeField] private float deathRange = 0.2f;
 
     [Range(0.01f, 100f)]
@@ -27,11 +33,13 @@ public class VacuumCleanerHead : MonoBehaviour
     public float SuctionForce => suctionForce;
     public float DeathRange => deathRange;
     public Vector3 Position => transform.position;
+    public Vector3 Forward => transform.forward;
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(Position, suctionRange);
+        Gizmos.color = Color.blue;
+        DrawPrizmGizmo(Position, suctionRange, suctionAngle);
+        //Gizmos.DrawWireSphere(Position + Forward * suctionRange, suctionRange);
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(Position, deathRange);
@@ -56,5 +64,30 @@ public class VacuumCleanerHead : MonoBehaviour
             moveVec *= 2f;
 
         transform.Translate(moveVec * Time.deltaTime, Space.World);
+    }
+
+    // origin : 원뿔 꼭대기
+    // height : 원뿔 높이
+    // angle  : 원뿔 각도
+    private void DrawPrizmGizmo(Vector3 origin, float height, float angle, int sample = 24)
+    {
+        float deltaRad = Mathf.PI * 2f / sample;
+        float circleRadius = Mathf.Tan(angle * Mathf.Deg2Rad) * height;
+        Vector3 forward = Vector3.forward * height;
+
+        Vector3 prevPoint = default;
+        for (int i = 0; i <= sample; i++)
+        {
+            float delta = deltaRad * i;
+            Vector3 circlePoint = new Vector3(Mathf.Cos(delta), Mathf.Sin(delta), 0f) * circleRadius;
+            circlePoint += forward;
+
+            circlePoint = transform.TransformPoint(circlePoint);
+
+            Gizmos.DrawLine(circlePoint, origin);
+            if (i > 0)
+                Gizmos.DrawLine(circlePoint, prevPoint);
+            prevPoint = circlePoint;
+        }
     }
 }

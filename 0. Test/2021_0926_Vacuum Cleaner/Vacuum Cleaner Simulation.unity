@@ -250,7 +250,8 @@ MonoBehaviour:
   run: 0
   suctionForce: 50
   suctionRange: 20
-  deathRange: 5
+  suctionAngle: 64.2
+  deathRange: 1
   moveSpeed: 50
 --- !u!1 &803335356
 GameObject:

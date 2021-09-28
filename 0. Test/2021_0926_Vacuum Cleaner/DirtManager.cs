@@ -42,7 +42,6 @@ public class DirtManager : MonoBehaviour
     private ComputeBuffer aliveNumberBuffer; // 생존 먼지 개수 RW
 
     private Bounds frustumOverlapBounds;
-    private Dirt[] dirtArray;
 
     private uint[] aliveNumberArray;
     private int aliveNumber;
@@ -109,7 +108,6 @@ public class DirtManager : MonoBehaviour
         argsBuffer.SetData(argsData);
 
         // Dirt Buffer
-        dirtArray = new Dirt[instanceNumber];
         dirtBuffer = new ComputeBuffer(instanceNumber, sizeof(float) * 3 + sizeof(int));
         dirtMaterial.SetBuffer("_DirtBuffer", dirtBuffer);
 
@@ -145,7 +143,6 @@ public class DirtManager : MonoBehaviour
         boundsMin.y = 0f;
         boundsMax.y = distributionHeight;
 
-        dirtCompute.SetFloat("width", Mathf.Sqrt((float)instanceNumber));
         dirtCompute.SetVector("boundsMin", boundsMin);
         dirtCompute.SetVector("boundsMax", boundsMax);
 
@@ -159,7 +156,6 @@ public class DirtManager : MonoBehaviour
     *                               Update Methods
     ***********************************************************************/
     #region .
-
     private void UpdateDirtPositionsGPU()
     {
         if (cleanerHead.Running == false) return;
