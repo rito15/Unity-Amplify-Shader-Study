@@ -5,7 +5,7 @@
 #define TRUE 1
 #define FALSE 0
 
-struct Dirt
+struct Dust
 {
     float3 position;
     int isAlive;
@@ -14,7 +14,7 @@ struct Dirt
 /*************************************************
 /*                     Variables
 /*************************************************/
-RWStructuredBuffer<Dirt> dirtBuffer;
+RWStructuredBuffer<Dust> dirtBuffer;
 RWStructuredBuffer<uint> aliveNumberBuffer; // 생존한 먼지 개수
 
 float deltaTime;
@@ -56,7 +56,7 @@ float SqrMagnitude(float3 vec)
 }
 
 // 먼지 파괴
-void DestroyDirt(uint i)
+void DestroyDust(uint i)
 {
     dirtBuffer[i].isAlive = FALSE;
     InterlockedAdd(aliveNumberBuffer[0], -1);
@@ -94,7 +94,7 @@ void Update (uint3 id : SV_DispatchThreadID)
     // 입구 주변 - 먼지 소멸
     if (sqrDist < sqrDeathRange)
     {
-        DestroyDirt(i);
+        DestroyDust(i);
         return;
     }
 
@@ -112,7 +112,7 @@ void Update (uint3 id : SV_DispatchThreadID)
 
             // 청소기 뒤편으로 넘어가면 먼지 소멸
             if(dot(centerPos - dirtBuffer[i].position, dir) < 0)
-                DestroyDirt(i);
+                DestroyDust(i);
         }
     }
     

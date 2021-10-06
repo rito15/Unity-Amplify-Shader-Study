@@ -10,18 +10,18 @@ using System.Threading;
 // https://www.youtube.com/watch?v=PGk0rnyTa1U
 
 [DisallowMultipleComponent]
-public class DirtManager : MonoBehaviour
+public class DustManager : MonoBehaviour
 {
     private const int TRUE = 1;
     private const int FALSE = 0;
 
-    private struct Dirt
+    private struct Dust
     {
         public Vector3 position;
         public int isAlive;
     }
 
-    [Header("Dirt Options")]
+    [Header("Dust Options")]
     [SerializeField] private Mesh dirtMesh;         // 먼지 메시
     [SerializeField] private Material dirtMaterial; // 먼지 마테리얼
 
@@ -60,13 +60,13 @@ public class DirtManager : MonoBehaviour
     {
         InitBuffers();
         InitComputeShader();
-        PopulateDirts();
+        PopulateDusts();
     }
 
     private void Update()
     {
         deltaTime = Time.deltaTime;
-        UpdateDirtPositionsGPU();
+        UpdateDustPositionsGPU();
 
         dirtMaterial.SetFloat("_Scale", dirtScale);
         Graphics.DrawMeshInstancedIndirect(dirtMesh, 0, dirtMaterial, frustumOverlapBounds, argsBuffer);
@@ -110,9 +110,9 @@ public class DirtManager : MonoBehaviour
         argsBuffer = new ComputeBuffer(1, 5 * sizeof(uint), ComputeBufferType.IndirectArguments);
         argsBuffer.SetData(argsData);
 
-        // Dirt Buffer
+        // Dust Buffer
         dirtBuffer = new ComputeBuffer(instanceNumber, sizeof(float) * 3 + sizeof(int));
-        dirtMaterial.SetBuffer("_DirtBuffer", dirtBuffer);
+        dirtMaterial.SetBuffer("_DustBuffer", dirtBuffer);
 
         // Alive Number Buffer
         aliveNumberBuffer = new ComputeBuffer(1, sizeof(uint));
@@ -138,7 +138,7 @@ public class DirtManager : MonoBehaviour
     }
 
     /// <summary> 먼지들을 영역 내의 무작위 위치에 생성한다. </summary>
-    private void PopulateDirts()
+    private void PopulateDusts()
     {
         Vector3 boundsMin, boundsMax;
         boundsMin.x = boundsMin.z = -0.5f * distributionRange;
@@ -159,7 +159,7 @@ public class DirtManager : MonoBehaviour
     *                               Update Methods
     ***********************************************************************/
     #region .
-    private void UpdateDirtPositionsGPU()
+    private void UpdateDustPositionsGPU()
     {
         if (cleanerHead.Running == false) return;
         ref var head = ref cleanerHead;
