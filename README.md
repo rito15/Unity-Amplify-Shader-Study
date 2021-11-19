@@ -81,22 +81,22 @@
 <img src="https://user-images.githubusercontent.com/42164422/131475908-0abf4640-ebb0-43c3-b64d-6487eae370ef.gif" width="500"/>
 
 
-## [14] Vignette and Blink
+## [6] Vignette and Blink
 
 <img src="https://user-images.githubusercontent.com/42164422/131477638-d6fbf5d9-81f5-4137-bf45-6138347109ff.gif" width="250"/> <img src="https://user-images.githubusercontent.com/42164422/131518643-6f1997bf-3f06-439e-841a-c236490c175d.gif" width="250"/>
 
 
-## [6] Colored Vignette
+## [7] Colored Vignette
 
 <img src="https://user-images.githubusercontent.com/42164422/131561671-dae7270e-9f0c-4466-bd8b-c8309bed28b8.png" width="500"/>
 
 
-## [7] Freezing
+## [8] Freezing
 
 <img src="https://user-images.githubusercontent.com/42164422/132953627-284901f4-8daa-4a60-a150-7f64127d573c.png" width="500"/>
 
 
-## [8] Chromatic Aberration
+## [9] Chromatic Aberration
 
 <img src="https://user-images.githubusercontent.com/42164422/142623489-588344be-13bb-4c83-bcb0-237f8a828ac0.gif" width="500"/>
 
