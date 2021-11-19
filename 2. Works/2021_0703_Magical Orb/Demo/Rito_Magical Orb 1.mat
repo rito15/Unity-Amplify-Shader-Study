@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rito_Magical Orb 1
+  m_Shader: {fileID: 4800000, guid: a8f3d72f24210a1498e858ec1b2aeb08, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _PatternTexture:
+        m_Texture: {fileID: 2800000, guid: abfe536110a69554c9bced35ae8e5d32, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _DisplacementRange: 0.618
+    - _DisplacementScale: 1
+    - _DisplacementSpeed: 0.823
+    - _DistortionNormalStrength: 1
+    - _DistortionScale: 4
+    - _DistortionSpeed: 0.2
+    - _DistortionTwirlStrength: 4
+    - _FresnelIntensity: 1
+    - _FresnelPower: 5
+    - _ScrollingSpeed: 0.3
+    - __dirty: 0
+    m_Colors:
+    - _FresnelColor: {r: 0.5960785, g: 2, b: 1.819608, a: 0}
+    - _PatternColor: {r: 0.3632075, g: 1, b: 0.8648483, a: 0}
+    - _TilingXY: {r: 1, g: 1, b: 0, a: 0}

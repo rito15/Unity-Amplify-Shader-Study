@@ -17,4 +17,18 @@ public class Test_CameraMain : MonoBehaviour
         _ = Camera.main;
         UnityEngine.Profiling.Profiler.EndSample();
     }
+
+#if UNITY_EDITOR
+    private class CE : UnityEditor.Editor
+    {
+        private void Reset()
+        {
+            Debug.Log("Hihi");
+        }
+    }
+    private void Reset()
+    {
+        Debug.Log("Hihi2");
+    }
+#endif
 }

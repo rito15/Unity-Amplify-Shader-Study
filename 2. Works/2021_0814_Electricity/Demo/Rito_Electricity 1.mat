@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rito_Electricity 1
+  m_Shader: {fileID: 4800000, guid: 76493fc0d87ecd145aec15dba91dccc7, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Amplitude: 0.5
+    - _BlinkSpeed: 2
+    - _Cutoff: 0.5
+    - _FlickerPower: 8
+    - _FlickerSpeed: 4
+    - _MaskNoiseScale: 8
+    - _MaskThreshold: 0.843
+    - _NoiseScale: 4
+    - _NormalOffset: 0.01
+    - _Power: 8
+    - _Repeat: 4
+    - _RepeatInterval: 1.2
+    - _Speed: 0.2
+    - _Threshold: 0.5
+    - _TimeBegin: 2
+    - _TimeEnd: 4
+    - _TimeInterval: 4
+    - _Width: 0.05
+    - __dirty: 0
+    m_Colors:
+    - _Color: {r: 127.999985, g: 101.86387, b: 0, a: 0}
+    - _FlowDirection: {r: 0, g: 2, b: 0, a: 0}
+    - _FlowDirection2: {r: 0, g: 0.5, b: 0, a: 0}
+    - _MaskOffset: {r: 0.6, g: 0.78, b: 0, a: 0}
+    - _Speed: {r: 0, g: 0.5, b: 0, a: 0}

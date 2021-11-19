@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rito_Directional 2 Color Dissolve
+  m_Shader: {fileID: 4800000, guid: a87ad88b8d5e2e244bace68e2a9435b5, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Dissolve: 0
+    - _MaxOffset: 0.5
+    - _MinOffset: -0.5
+    - _NoiseScale: 5
+    - _Smoothness: 0.2
+    - _ThicknessA: 0.05
+    - _ThicknessB: 0.05
+    - __dirty: 0
+    m_Colors:
+    - _ColorA: {r: 0.7215686, g: 1.192157, b: 5.992157, a: 0}
+    - _ColorB: {r: 0.972549, g: 5.992157, b: 0.9411765, a: 0}
+    - _DissolveDirection: {r: 0, g: 1, b: 0, a: 0}
