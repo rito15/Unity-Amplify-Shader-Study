@@ -84,7 +84,7 @@
 <img src="https://user-images.githubusercontent.com/42164422/132953627-284901f4-8daa-4a60-a150-7f64127d573c.png" width="500"/>
 
 
-## [17] Screen - Spawn
+## [17] Spawn
 
 <img src="https://user-images.githubusercontent.com/42164422/133798521-26de57b7-afa5-404a-9146-4cd8f37b4052.gif" width="250"/> <img src="https://user-images.githubusercontent.com/42164422/133798529-480db209-7b2a-4aed-b529-b4583d72327b.gif" width="250"/>
 
