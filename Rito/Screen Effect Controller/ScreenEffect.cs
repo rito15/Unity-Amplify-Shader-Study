@@ -1619,15 +1619,28 @@ namespace Rito
             /// <summary> 현재 복제된 마테리얼의 수정 가능한 프로퍼티 목록 표시하기 </summary>
             private void DrawCopiedMaterialProperties()
             {
+                int propCount = m.matPropertyList.Count;
+
+                // 2021. 11. 19. (금) 추가
+                // 벡터 프로퍼티가 존재하면 아래로 밀려나는 버그 발생
+                // 벡터 프로퍼티의 개수 세기 => 벡터 프로퍼티는 기본 높이 20f가 아니라 22f
+                float additionalHeight = 0f;
+                for (int i = 0; i < propCount; i++)
+                {
+                    if (m.matPropertyList[i].propType == ShaderPropertyType.Vector)
+                        additionalHeight += 2f;
+                }
+                additionalHeight /= propCount;
+
                 RitoEditorGUI.FoldoutHeaderBox(ref m.__matPropListFoldout, EngHan("Material Properties", "마테리얼 프로퍼티 목록"),
-                    m.matPropertyList.Count);
+                    m.matPropertyList.Count, 20f + additionalHeight);
 
                 if (!m.__matPropListFoldout)
                     return;
 
                 EditorGUI.BeginDisabledGroup(isPlayMode && !isDurationZero && m.gameObject.activeSelf && !m.__editMode);
 
-                for (int i = 0; i < m.matPropertyList.Count; i++)
+                for (int i = 0; i < propCount; i++)
                 {
                     var mp = m.matPropertyList[i];
                     if ((int)mp.propType == 4) // 4 : Texture
