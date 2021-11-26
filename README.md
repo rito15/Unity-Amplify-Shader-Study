@@ -101,3 +101,7 @@
 <img src="https://user-images.githubusercontent.com/42164422/142623489-588344be-13bb-4c83-bcb0-237f8a828ac0.gif" width="500"/>
 
 
+## [10] Pixelation
+
+<img src="https://user-images.githubusercontent.com/42164422/143545961-dd2d74ed-a06a-45ce-b4e2-f83f01bd7ffd.gif" width="500"/>
+
