@@ -56,7 +56,7 @@
 
 # Screen Effect Shaders
 
-## [1] Damage
+## [1] Damaged
 
 <img src="https://user-images.githubusercontent.com/42164422/129949478-8d5c63b9-7ddb-4e30-a795-3c310e51261b.gif" width="500"/>
 
